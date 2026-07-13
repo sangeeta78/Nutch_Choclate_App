@@ -218,17 +218,52 @@ a **dummy payment gateway** (UPI / Net Banking / Cards / Wallet), and a secure *
 
 Getting this running on a fresh computer takes 5 steps. (Detailed explanations are further down.)
 
-**1. Install the 3 required tools** (one time). On Windows with winget:
+**1. Install the 3 required tools** (one time): **Git**, **Node.js 18+**, **MongoDB**. Pick your OS:
+
+<details open>
+<summary><b>Windows</b> (winget)</summary>
 
 ```bash
 winget install Git.Git
 winget install OpenJS.NodeJS.LTS
 winget install MongoDB.Server
 ```
+Then **close and reopen your terminal**. MongoDB installs as an auto-start service —
+check with `Get-Service MongoDB` (should show **Running**).
+</details>
 
-Then **close and reopen your terminal** and verify: `git --version`, `node --version`, `npm --version`.
-Make sure MongoDB is running: `Get-Service MongoDB` should show **Running**.
-*(No local MongoDB? Use a free [MongoDB Atlas](https://www.mongodb.com/atlas) cloud DB instead.)*
+<details>
+<summary><b>macOS</b> (Homebrew)</summary>
+
+Install [Homebrew](https://brew.sh) first if needed, then:
+```bash
+brew install git
+brew install node
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb-community      # start MongoDB (keeps running on boot)
+```
+Check MongoDB with `brew services list` (mongodb-community should say **started**).
+Works on Apple Silicon (M1/M2/M3/M4) and Intel Macs.
+
+MongoDB control: `brew services start|stop|restart mongodb-community`
+</details>
+
+<details>
+<summary><b>Linux</b> (Debian/Ubuntu)</summary>
+
+```bash
+sudo apt update && sudo apt install -y git
+# Node.js 20 LTS via NodeSource
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt install -y nodejs
+# MongoDB: follow https://www.mongodb.com/docs/manual/administration/install-on-linux/
+sudo systemctl start mongod        # start MongoDB
+```
+</details>
+
+Verify on any OS: `git --version`, `node --version`, `npm --version`.
+*(No local MongoDB? Use a free [MongoDB Atlas](https://www.mongodb.com/atlas) cloud DB and paste its
+connection string into `backend/.env` instead.)*
 
 **2. Clone the project**
 
