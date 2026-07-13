@@ -118,7 +118,7 @@ export default function Payment() {
       {/* Fake secure gateway header */}
       <div className="mb-6 flex items-center justify-between rounded-t-2xl bg-chocolate px-6 py-4 text-cream">
         <div className="flex items-center gap-2 font-semibold">
-          <FaLock className="text-gold" /> CocoaPay Secure Gateway
+          <FaLock className="text-gold" /> NutchPay Secure Gateway
         </div>
         <span className="text-sm">Order #{order.orderId}</span>
       </div>

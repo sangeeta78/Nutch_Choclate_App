@@ -266,7 +266,7 @@ If you'd like, I can:
 - prepare Android signing configuration (keystore generation) instructions,
 - or create a GitHub Actions workflow for build artifacts.
 
-# 🍫 CocoaCraft — Homemade Chocolate & Nuts Store
+# 🍫 Nutch Guiltfree Chocolate — Homemade Chocolate & Nuts Store
 
 A modern, responsive **full-stack MERN e-commerce application** for a premium homemade
 chocolate, dry-fruits, nuts and gift-box brand. It has a complete **customer storefront**,
@@ -335,7 +335,7 @@ Verify on any OS: `git --version`, `node --version`, `npm --version`.
 >   [mongodb.com/atlas](https://www.mongodb.com/atlas), add a database user, allow your IP under
 >   *Network Access*, then copy the **Connect → Drivers** string into `MONGO_URI` in `backend/.env`:
 >   ```env
->   MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/cocoacraft?retryWrites=true&w=majority
+>   MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/nutch?retryWrites=true&w=majority
 >   ```
 >   Recommended when moving between computers — your data lives in the cloud, so you skip the install every time.
 >
@@ -375,8 +375,8 @@ npm run dev                   # app on http://localhost:5173
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | `admin@cocoacraft.com` | `Admin@123` |
-| Customer | `customer@cocoacraft.com` | `Customer@123` |
+| Admin | `admin@nutch.com` | `Admin@123` |
+| Customer | `customer@nutch.com` | `Customer@123` |
 
 > ℹ️ Only **Git, Node.js, and MongoDB** need to be installed. Everything else is pulled in by `npm install`.
 > Keep **two terminals** open: one for the backend, one for the frontend (backend needs MongoDB running).
@@ -530,10 +530,10 @@ Open `backend/.env` in your editor and set at least these values:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/cocoacraft   # or your Atlas connection string
+MONGO_URI=mongodb://127.0.0.1:27017/nutch   # or your Atlas connection string
 JWT_SECRET=change_this_to_a_long_random_string
 CLIENT_URL=http://localhost:5173
-ADMIN_EMAIL=admin@cocoacraft.com
+ADMIN_EMAIL=admin@nutch.com
 ADMIN_PASSWORD=Admin@123
 ```
 
@@ -586,8 +586,8 @@ accounts:
 
 | Role         | Email                     | Password      | What you can do                    |
 |--------------|---------------------------|---------------|------------------------------------|
-| **Customer** | customer@cocoacraft.com   | `Customer@123`| Shop, cart, checkout, orders       |
-| **Admin**    | admin@cocoacraft.com      | `Admin@123`   | Dashboard, manage products/orders  |
+| **Customer** | customer@nutch.com   | `Customer@123`| Shop, cart, checkout, orders       |
+| **Admin**    | admin@nutch.com      | `Admin@123`   | Dashboard, manage products/orders  |
 
 After logging in as **admin**, open the **Admin Panel** from the 👤 account menu (or go to
 **http://localhost:5173/admin**).

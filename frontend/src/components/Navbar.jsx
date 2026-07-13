@@ -28,7 +28,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-chocolate dark:text-gold">
-          🍫 <span className="font-serif">CocoaCraft</span>
+          🍫 <span className="font-serif">Nutch Guiltfree Chocolate</span>
         </Link>
 
         {/* Search (desktop) */}

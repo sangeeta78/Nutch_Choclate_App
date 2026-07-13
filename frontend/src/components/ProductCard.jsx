@@ -6,7 +6,7 @@ import { useWishlist } from '../context/WishlistContext.jsx';
 import { formatINR } from '../utils/format.js';
 
 const PLACEHOLDER =
-  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="%23795548"/><text x="50%" y="50%" fill="%23FFF8E1" font-size="24" text-anchor="middle" dy=".3em">CocoaCraft</text></svg>';
+  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="%23795548"/><text x="50%" y="50%" fill="%23FFF8E1" font-size="24" text-anchor="middle" dy=".3em">Nutch Guiltfree Chocolate</text></svg>';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();

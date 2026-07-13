@@ -30,7 +30,7 @@ export const register = asyncHandler(async (req, res) => {
 
   await sendMockEmail({
     to: email,
-    subject: 'Welcome to CocoaCraft 🍫',
+    subject: 'Welcome to Nutch Guiltfree Chocolate 🍫',
     body: `Hi ${name}, your account has been created successfully!`,
   });
 
@@ -82,7 +82,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 
   await sendMockEmail({
     to: email,
-    subject: 'Reset your CocoaCraft password',
+    subject: 'Reset your Nutch Guiltfree Chocolate password',
     body: `Use this token to reset your password: ${resetToken}`,
   });
 

@@ -33,7 +33,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health check
 app.get('/api/health', (req, res) =>
-  res.json({ success: true, message: 'CocoaCraft API is running 🍫' })
+  res.json({ success: true, message: 'Nutch Guiltfree Chocolate API is running 🍫' })
 );
 
 // API routes

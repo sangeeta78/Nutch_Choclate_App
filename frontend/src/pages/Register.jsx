@@ -16,7 +16,7 @@ export default function Register() {
     setLoading(true);
     try {
       await register(form);
-      toast.success('Account created! Welcome to CocoaCraft 🍫');
+      toast.success('Account created! Welcome to Nutch Guiltfree Chocolate 🍫');
       navigate('/');
     } catch (err) {
       toast.error(err.message);
@@ -26,7 +26,7 @@ export default function Register() {
   };
 
   return (
-    <AuthShell title="Create Account" subtitle="Join the CocoaCraft family">
+    <AuthShell title="Create Account" subtitle="Join the Nutch Guiltfree Chocolate family">
       <form onSubmit={submit} className="space-y-4">
         <div>
           <label className="label">Full Name</label>

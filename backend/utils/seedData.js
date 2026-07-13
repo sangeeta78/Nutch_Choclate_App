@@ -209,8 +209,8 @@ const importData = async () => {
 
     // Admin user (password hashed by model pre-save hook)
     await User.create({
-      name: 'CocoaCraft Admin',
-      email: process.env.ADMIN_EMAIL || 'admin@cocoacraft.com',
+      name: 'Nutch Guiltfree Chocolate Admin',
+      email: process.env.ADMIN_EMAIL || 'admin@nutch.com',
       password: process.env.ADMIN_PASSWORD || 'Admin@123',
       role: 'admin',
       mobile: '9999999999',
@@ -219,7 +219,7 @@ const importData = async () => {
     // A demo customer
     await User.create({
       name: 'Demo Customer',
-      email: 'customer@cocoacraft.com',
+      email: 'customer@nutch.com',
       password: 'Customer@123',
       role: 'customer',
       mobile: '8888888888',
@@ -233,8 +233,8 @@ const importData = async () => {
     );
 
     console.log('✅ Sample data imported!');
-    console.log(`   Admin login: ${process.env.ADMIN_EMAIL || 'admin@cocoacraft.com'} / ${process.env.ADMIN_PASSWORD || 'Admin@123'}`);
-    console.log('   Customer login: customer@cocoacraft.com / Customer@123');
+    console.log(`   Admin login: ${process.env.ADMIN_EMAIL || 'admin@nutch.com'} / ${process.env.ADMIN_PASSWORD || 'Admin@123'}`);
+    console.log('   Customer login: customer@nutch.com / Customer@123');
     process.exit(0);
   } catch (err) {
     console.error('❌ Seed error:', err);

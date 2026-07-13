@@ -1,7 +1,7 @@
 {
-  "name": "cocoacraft-backend",
+  "name": "nutch-backend",
   "version": "1.0.0",
-  "description": "Backend API for CocoaCraft - Homemade Chocolate & Nuts Store",
+  "description": "Backend API for Nutch Guiltfree Chocolate - Homemade Chocolate & Nuts Store",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
     "mern",
     "chocolate"
   ],
-  "author": "CocoaCraft",
+  "author": "Nutch Guiltfree Chocolate",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

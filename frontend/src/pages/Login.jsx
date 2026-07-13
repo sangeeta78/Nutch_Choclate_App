@@ -27,7 +27,7 @@ export default function Login() {
   };
 
   return (
-    <AuthShell title="Welcome Back" subtitle="Log in to your CocoaCraft account">
+    <AuthShell title="Welcome Back" subtitle="Log in to your Nutch Guiltfree Chocolate account">
       <form onSubmit={submit} className="space-y-4">
         <div>
           <label className="label">Email</label>
@@ -63,7 +63,7 @@ export default function Login() {
         <Link to="/register" className="font-semibold text-gold hover:underline">Register</Link>
       </p>
       <p className="mt-3 text-center text-xs text-chocolate-light dark:text-cream/50">
-        Demo: customer@cocoacraft.com / Customer@123
+        Demo: customer@nutch.com / Customer@123
       </p>
     </AuthShell>
   );
