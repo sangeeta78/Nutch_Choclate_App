@@ -1,3 +1,206 @@
+# ChocoNut - Mobile App (Choclate_mobile_app)
+
+ChocoNut is a cross-platform Flutter mobile application (Android & iOS)
+for "Home Made Chocolates & Nuts". This repository contains an existing
+web/frontend and backend, and a Flutter mobile app inside the `mobile/`
+folder.
+
+Repository: https://github.com/sangeeta78/Choclate_mobile_app
+
+Contents
+- `backend/` - existing backend services.
+- `frontend/` - existing web frontend.
+- `mobile/` - Flutter mobile application (Android & iOS).
+
+This README documents how to set up your environment, build the app,
+prepare releases and connect Firebase services. Follow the steps below
+to run and package the mobile app.
+
+## Prerequisites
+
+- Git
+- Flutter (stable). Recommended: latest stable channel. See https://flutter.dev
+- Android Studio (for Android SDK and emulator)
+- Xcode (macOS) for building iOS
+- A GitHub account with push access to this repository
+
+On Windows, ensure you set the `ANDROID_HOME` or `ANDROID_SDK_ROOT` env var
+after installing Android Studio.
+
+## Project structure
+
+- Mobile app root: [mobile](mobile)
+- Main entrypoint: `mobile/lib/main.dart`
+
+## Quick setup (local)
+
+1. Clone the repo (if not already):
+
+```bash
+git clone https://github.com/sangeeta78/Choclate_mobile_app.git
+cd Choclate_mobile_app
+```
+
+2. Install Flutter and verify:
+
+```bash
+flutter --version
+flutter doctor
+```
+
+3. Install packages and analyze the mobile app:
+
+```bash
+cd mobile
+flutter pub get
+flutter analyze
+```
+
+4. Run on a connected device or emulator:
+
+```bash
+# Android
+flutter run -d emulator-5554
+
+# Windows (desktop)
+flutter run -d windows
+
+# Chrome (web) - for quick UI check
+flutter run -d chrome
+```
+
+## Build Android
+
+Install Android Studio and the SDK, then set `ANDROID_HOME`/`ANDROID_SDK_ROOT`.
+After that, from the `mobile` folder run:
+
+```bash
+# Debug APK
+flutter build apk --debug
+
+# Release APK
+flutter build apk --release
+
+# Android App Bundle (recommended for Play Store)
+flutter build appbundle --release
+```
+
+Note: This environment currently does not include the Android SDK. If you
+see `No Android SDK found`, install Android Studio and SDK then re-run
+`flutter doctor`.
+
+## Build iOS
+
+On macOS with Xcode installed, from `mobile`:
+
+```bash
+flutter build ios --no-codesign
+# To build archive and sign, open ios/Runner.xcworkspace in Xcode
+# and follow Apple signing flow.
+```
+
+## Firebase integration (recommended)
+
+This app is scaffolded to use Firebase services (Auth, Firestore, Storage,
+Messaging, Analytics). Steps to integrate:
+
+1. Create a project at https://console.firebase.google.com
+2. Add Android app in Firebase console:
+   - Android package name: use your app id (e.g. com.yourcompany.choconut)
+   - Download `google-services.json`
+   - Place it at `mobile/android/app/google-services.json`
+3. Add iOS app in Firebase console:
+   - iOS bundle id: your app bundle identifier
+   - Download `GoogleService-Info.plist`
+   - Add it to `mobile/ios/Runner/` and include it in Xcode
+4. Add Firebase SDK packages to `pubspec.yaml` (example):
+
+```yaml
+dependencies:
+  firebase_core: ^2.0.0
+  firebase_auth: ^4.0.0
+  cloud_firestore: ^4.0.0
+  firebase_storage: ^11.0.0
+  firebase_messaging: ^14.0.0
+  firebase_analytics: ^10.0.0
+  firebase_crashlytics: ^3.0.0
+```
+
+5. Initialize Firebase in `main.dart` before `runApp()`:
+
+```dart
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const ChocoNutApp());
+}
+```
+
+6. Follow platform-specific setup docs for additional Android Gradle
+   configuration and iOS Pod installs: https://firebase.flutter.dev/docs/overview
+
+## Dummy Payment Gateway
+
+This project uses a dummy payment flow (no real payment provider).
+The expected behavior implemented in the mobile app:
+
+- Show processing animation for 3 seconds
+- Generate random Transaction ID / Order ID locally
+- Show payment success and save order to Firestore (when integrated)
+
+Replace the dummy logic with a real payment provider only when ready.
+
+## Linting, formatting and tests
+
+```bash
+flutter analyze
+flutter format .
+flutter test
+```
+
+## Continuous Integration / Release notes
+
+- For Play Store: create signing key (`key.jks`), add signing config to
+  `android/key.properties` and `android/app/build.gradle`.
+- For App Store: create provisioning profile and certificates in Apple
+  Developer portal. Use Xcode to manage signing.
+
+## Commit and push changes
+
+From repo root:
+
+```bash
+git add .
+git commit -m "Add/Update mobile app and README"
+git push origin main
+```
+
+## Where the mobile app lives
+
+The working Flutter project is in: [mobile](mobile) and main entrypoint is
+`mobile/lib/main.dart`.
+
+## Next recommended steps
+
+1. Install Android Studio and configure SDK for Android builds.
+2. On macOS, install Xcode for iOS build and signing.
+3. Create a Firebase project and add platform apps; drop the config files
+   into `mobile/android/app/` and `mobile/ios/Runner/`.
+4. Replace the dummy payment logic with a real payment provider when
+   ready (Stripe, Razorpay, Paytm, etc.)
+
+## License
+
+Add your preferred license file (e.g., `LICENSE`) to the repository.
+
+----
+If you'd like, I can:
+- add the Firebase packages and minimal initialization code now,
+- prepare Android signing configuration (keystore generation) instructions,
+- or create a GitHub Actions workflow for build artifacts.
+
 # 🍫 CocoaCraft — Homemade Chocolate & Nuts Store
 
 A modern, responsive **full-stack MERN e-commerce application** for a premium homemade
@@ -11,11 +214,28 @@ a **dummy payment gateway** (UPI / Net Banking / Cards / Wallet), and a secure *
 
 ---
 
+## 📸 Screenshots
+
+| Home | Product Details |
+|------|-----------------|
+| ![Home page](docs/screenshots/home.png) | ![Product details](docs/screenshots/product-details.png) |
+
+| Cart | Dummy Payment Gateway |
+|------|-----------------------|
+| ![Cart](docs/screenshots/cart.png) | ![Payment gateway](docs/screenshots/payment.png) |
+
+| Admin Dashboard | Admin — Product Management |
+|-----------------|----------------------------|
+| ![Admin dashboard](docs/screenshots/admin-dashboard.png) | ![Manage products](docs/screenshots/admin-products.png) |
+
+---
+
 ## 📑 Table of Contents
 
-1. [Tech Stack](#-tech-stack)
-2. [Tools You Need to Install](#-tools-you-need-to-install)
-3. [Project Structure](#-project-structure)
+1. [Screenshots](#-screenshots)
+2. [Tech Stack](#-tech-stack)
+3. [Tools You Need to Install](#-tools-you-need-to-install)
+4. [Project Structure](#-project-structure)
 4. [Step 1 — Clone the Project](#-step-1--clone-the-project)
 5. [Step 2 — Run the Backend](#-step-2--run-the-backend)
 6. [Step 3 — Run the Frontend](#-step-3--run-the-frontend)
