@@ -214,6 +214,60 @@ a **dummy payment gateway** (UPI / Net Banking / Cards / Wallet), and a secure *
 
 ---
 
+## ⚡ Quick Start on a New Machine
+
+Getting this running on a fresh computer takes 5 steps. (Detailed explanations are further down.)
+
+**1. Install the 3 required tools** (one time). On Windows with winget:
+
+```bash
+winget install Git.Git
+winget install OpenJS.NodeJS.LTS
+winget install MongoDB.Server
+```
+
+Then **close and reopen your terminal** and verify: `git --version`, `node --version`, `npm --version`.
+Make sure MongoDB is running: `Get-Service MongoDB` should show **Running**.
+*(No local MongoDB? Use a free [MongoDB Atlas](https://www.mongodb.com/atlas) cloud DB instead.)*
+
+**2. Clone the project**
+
+```bash
+git clone https://github.com/sangeeta78/Nutch_Choclate_App.git
+cd Nutch_Choclate_App
+```
+
+**3. Start the backend** (Terminal 1)
+
+```bash
+cd backend
+npm install
+cp .env.example .env          # PowerShell: Copy-Item .env.example .env
+npm run seed                  # loads sample products + admin + demo customer
+npm run dev                   # API on http://localhost:5000
+```
+
+**4. Start the frontend** (Terminal 2)
+
+```bash
+cd frontend
+npm install
+npm run dev                   # app on http://localhost:5173
+```
+*(Windows: if esbuild scripts were skipped, run `npm approve-scripts esbuild` once, then `npm run dev`.)*
+
+**5. Open & log in** → **http://localhost:5173** → 👤 **Login**
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@cocoacraft.com` | `Admin@123` |
+| Customer | `customer@cocoacraft.com` | `Customer@123` |
+
+> ℹ️ Only **Git, Node.js, and MongoDB** need to be installed. Everything else is pulled in by `npm install`.
+> Keep **two terminals** open: one for the backend, one for the frontend (backend needs MongoDB running).
+
+---
+
 ## 📸 Screenshots
 
 | Home | Product Details |
@@ -232,8 +286,9 @@ a **dummy payment gateway** (UPI / Net Banking / Cards / Wallet), and a secure *
 
 ## 📑 Table of Contents
 
-1. [Screenshots](#-screenshots)
-2. [Tech Stack](#-tech-stack)
+1. [Quick Start on a New Machine](#-quick-start-on-a-new-machine)
+2. [Screenshots](#-screenshots)
+3. [Tech Stack](#-tech-stack)
 3. [Tools You Need to Install](#-tools-you-need-to-install)
 4. [Project Structure](#-project-structure)
 4. [Step 1 — Clone the Project](#-step-1--clone-the-project)
