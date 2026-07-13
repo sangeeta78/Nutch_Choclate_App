@@ -1,89 +1,153 @@
 # 🍫 CocoaCraft — Homemade Chocolate & Nuts Store
 
 A modern, responsive **full-stack MERN e-commerce application** for a premium homemade
-chocolate, dry-fruits, nuts and gift-box brand. Includes a full customer storefront, a
-**dummy payment gateway** (UPI / Net Banking / Cards / Wallet), and a secure **admin panel**.
+chocolate, dry-fruits, nuts and gift-box brand. It has a complete **customer storefront**,
+a **dummy payment gateway** (UPI / Net Banking / Cards / Wallet), and a secure **admin panel**.
 
-> **Note:** The payment gateway is fully **simulated** — no real payment provider is
-> integrated and no money is ever charged.
+> 💡 The payment gateway is **fully simulated** — no real payment provider is integrated and
+> no money is ever charged.
+
+**Repository:** https://github.com/sangeeta78/Nutch_Choclate_App
+
+---
+
+## 📑 Table of Contents
+
+1. [Tech Stack](#-tech-stack)
+2. [Tools You Need to Install](#-tools-you-need-to-install)
+3. [Project Structure](#-project-structure)
+4. [Step 1 — Clone the Project](#-step-1--clone-the-project)
+5. [Step 2 — Run the Backend](#-step-2--run-the-backend)
+6. [Step 3 — Run the Frontend](#-step-3--run-the-frontend)
+7. [Step 4 — Open & Log In](#-step-4--open--log-in)
+8. [Using the Store (Customer)](#-using-the-store-customer)
+9. [Using the Admin Panel](#-using-the-admin-panel)
+   - [How to add a product & upload a new image](#how-to-add-a-product--upload-a-new-image)
+   - [How to edit a product / replace its image](#how-to-edit-a-product--replace-its-image)
+10. [Making Changes & Committing to Git](#-making-changes--committing-to-git)
+11. [Coupon Codes](#-coupon-codes)
+12. [API Reference](#-api-reference)
+13. [Troubleshooting](#-troubleshooting)
+14. [License](#-license)
 
 ---
 
 ## ✨ Tech Stack
 
-| Layer      | Technology                                   |
-|------------|----------------------------------------------|
-| Frontend   | React 18 (Vite) + Tailwind CSS + React Router|
-| Backend    | Node.js + Express (ES modules)               |
-| Database   | MongoDB + Mongoose                           |
-| Auth       | JWT (Bearer tokens) + bcrypt                 |
-| Payments   | Dummy simulator (UPI, Net Banking, Cards, Wallet) |
+| Layer     | Technology                                     |
+|-----------|------------------------------------------------|
+| Frontend  | React 18 (Vite) + Tailwind CSS + React Router  |
+| Backend   | Node.js + Express (ES modules)                 |
+| Database  | MongoDB + Mongoose                             |
+| Auth      | JWT (Bearer tokens) + bcrypt                   |
+| Payments  | Dummy simulator (UPI, Net Banking, Cards, Wallet) |
+| Mobile    | Flutter (in `mobile/`, optional)               |
+
+---
+
+## 🧰 Tools You Need to Install
+
+Install these **once** on your computer. Windows commands using `winget` are shown; on macOS
+use `brew`, on Linux use your package manager.
+
+| Tool | Why it's needed | Download / Install |
+|------|-----------------|--------------------|
+| **Git** | Clone the repo & commit changes | https://git-scm.com/downloads  ·  `winget install Git.Git` |
+| **Node.js 18+** (includes npm) | Runs the backend & builds the frontend | https://nodejs.org  ·  `winget install OpenJS.NodeJS.LTS` |
+| **MongoDB Community Server** | The database | https://www.mongodb.com/try/download/community  ·  `winget install MongoDB.Server` |
+| **A code editor** (VS Code) | Edit the code | https://code.visualstudio.com |
+| **GitHub CLI** *(optional)* | Easy GitHub auth & repo creation | https://cli.github.com  ·  `winget install GitHub.cli` |
+| **Flutter** *(only for the mobile app)* | Build/run `mobile/` | https://docs.flutter.dev/get-started/install |
+
+> Instead of installing MongoDB locally you can use a **free MongoDB Atlas** cloud database
+> (https://www.mongodb.com/atlas) and just paste its connection string into your `.env`.
+
+### Verify the installs
+
+Open a terminal and run:
+
+```bash
+git --version
+node --version
+npm --version
+```
+
+Check MongoDB is running (Windows installs it as an auto-start service called **MongoDB**):
+
+```powershell
+Get-Service MongoDB          # Status should be "Running"
+```
 
 ---
 
 ## 📁 Project Structure
 
 ```
-Nutch_Choclate_app/
-├── backend/
-│   ├── config/          # DB connection
-│   ├── controllers/     # Route handlers (auth, product, order, payment, admin...)
-│   ├── middleware/       # auth, error handling, validation, file upload
-│   ├── models/          # Mongoose schemas (User, Product, Order, Payment, Category)
-│   ├── routes/          # Express routers
-│   ├── utils/           # token, helpers, DB seed script
-│   ├── uploads/         # uploaded product images (served statically)
-│   ├── .env.example     # environment template
-│   └── server.js        # app entry point
+Nutch_Choclate_App/
+├── backend/                 # Node + Express REST API
+│   ├── config/              # MongoDB connection
+│   ├── controllers/         # Business logic (auth, products, orders, payment, admin…)
+│   ├── middleware/          # auth guard, error handler, validation, image upload
+│   ├── models/              # Mongoose schemas (User, Product, Order, Payment, Category)
+│   ├── routes/              # Express routers
+│   ├── utils/               # token, helpers, DB seed script
+│   ├── uploads/             # uploaded product images (served at /uploads)
+│   ├── .env.example         # environment template — copy to .env
+│   └── server.js            # entry point
 │
-└── frontend/
-    ├── src/
-    │   ├── api/          # axios instance
-    │   ├── components/    # Navbar, Footer, ProductCard, Rating, Loader...
-    │   ├── context/      # Auth, Cart, Wishlist, Theme providers
-    │   ├── pages/        # customer pages
-    │   │   └── admin/     # admin panel pages
-    │   ├── utils/        # formatters
-    │   ├── App.jsx       # routes
-    │   └── main.jsx      # entry
-    ├── tailwind.config.js
-    └── vite.config.js    # proxies /api to backend
+├── frontend/                # React + Vite + Tailwind app
+│   └── src/
+│       ├── api/             # axios instance
+│       ├── components/      # Navbar, Footer, ProductCard, Rating, Loader…
+│       ├── context/         # Auth, Cart, Wishlist, Theme providers
+│       ├── pages/           # storefront pages
+│       │   └── admin/       # admin panel pages
+│       └── utils/           # formatters
+│
+├── mobile/                  # Flutter mobile app (optional)
+└── README.md
 ```
 
 ---
 
-## ✅ Prerequisites
-
-This project needs the following installed (they are **not** currently on this machine):
-
-1. **Node.js 18+** — https://nodejs.org/en/download  (includes npm)
-2. **MongoDB** — either:
-   - Local server (MongoDB Community Server), or
-   - A free **MongoDB Atlas** cloud cluster (recommended, no install) — https://www.mongodb.com/atlas
-
-Verify after installing:
+## 📥 Step 1 — Clone the Project
 
 ```bash
-node --version
-npm --version
+# Clone your repository
+git clone https://github.com/sangeeta78/Nutch_Choclate_App.git
+
+# Go into the project folder
+cd Nutch_Choclate_App
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🖥️ Step 2 — Run the Backend
 
-### 1. Backend
+Open a terminal in the project folder:
 
 ```bash
 cd backend
+
+# 1. Install dependencies
 npm install
 
-# create your env file from the template
-cp .env.example .env        # Windows PowerShell: Copy-Item .env.example .env
-# then edit .env and set MONGO_URI + JWT_SECRET
+# 2. Create your environment file from the template
+cp .env.example .env          # Windows PowerShell:  Copy-Item .env.example .env
 ```
 
-Seed the database with sample products, categories, an admin, and a demo customer:
+Open `backend/.env` in your editor and set at least these values:
+
+```env
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/cocoacraft   # or your Atlas connection string
+JWT_SECRET=change_this_to_a_long_random_string
+CLIENT_URL=http://localhost:5173
+ADMIN_EMAIL=admin@cocoacraft.com
+ADMIN_PASSWORD=Admin@123
+```
+
+Seed the database with sample products, categories, an admin account and a demo customer:
 
 ```bash
 npm run seed
@@ -92,123 +156,240 @@ npm run seed
 Start the API server:
 
 ```bash
-npm run dev     # development (auto-reload via nodemon)
+npm run dev      # development, auto-reloads on changes
 # or
-npm start       # production
+npm start        # production mode
 ```
 
-API runs at **http://localhost:5000** (health check: `GET /api/health`).
+✅ Backend is now at **http://localhost:5000** (health check: open `http://localhost:5000/api/health`).
 
-### 2. Frontend
+---
 
-In a **second terminal**:
+## 🎨 Step 3 — Run the Frontend
+
+Open a **second terminal**:
 
 ```bash
 cd frontend
+
+# Install dependencies
 npm install
+
+# Start the dev server
 npm run dev
 ```
 
-App runs at **http://localhost:5173**. Vite proxies `/api` and `/uploads` to the backend,
-so no CORS setup is needed in development.
+✅ App is now at **http://localhost:5173**. Vite automatically proxies `/api` and `/uploads`
+to the backend, so you don't need any extra CORS setup during development.
+
+> **Windows note:** if `npm install` warns that install scripts were skipped for **esbuild**,
+> run `npm approve-scripts esbuild` once, then `npm run dev` again.
 
 ---
 
-## 🔑 Demo Credentials (created by `npm run seed`)
+## 🔓 Step 4 — Open & Log In
 
-| Role     | Email                     | Password      |
-|----------|---------------------------|---------------|
-| Admin    | admin@cocoacraft.com      | Admin@123     |
-| Customer | customer@cocoacraft.com   | Customer@123  |
+Open **http://localhost:5173** in your browser.
 
-The admin panel is available at **/admin** (visible in the account menu when logged in as admin).
+Click the **person icon (👤)** in the top-right navbar → **Login**, and use one of the seeded
+accounts:
+
+| Role         | Email                     | Password      | What you can do                    |
+|--------------|---------------------------|---------------|------------------------------------|
+| **Customer** | customer@cocoacraft.com   | `Customer@123`| Shop, cart, checkout, orders       |
+| **Admin**    | admin@cocoacraft.com      | `Admin@123`   | Dashboard, manage products/orders  |
+
+After logging in as **admin**, open the **Admin Panel** from the 👤 account menu (or go to
+**http://localhost:5173/admin**).
+
+You can also **Register** a brand-new customer account from the login screen.
 
 ---
 
-## 💳 Dummy Payment Gateway
+## 🛒 Using the Store (Customer)
 
-At checkout you're taken to **CocoaPay**, a simulated gateway supporting:
+1. **Browse** products on the home page or **All Products**; use the **search bar**, **category
+   filters**, and **sort** (price / rating) options.
+2. Click a product to see **details**, image gallery, ingredients, reviews and related items.
+3. **Add to Cart** or **Buy Now** → open the **Cart** (🛒 icon) to change quantities or remove items.
+4. **Proceed to Checkout** → fill in delivery details → optionally apply a **coupon code**.
+5. **Proceed to Payment** → choose **UPI / Net Banking / Credit Card / Debit Card / Wallet** →
+   watch the 3-second processing animation → land on the **Order Success** page with your
+   Order ID & Transaction ID.
+6. View past orders under **My Orders**, open any order to **print the invoice**, and use the
+   **♥ Wishlist** and 🌙 **dark-mode** toggle in the navbar.
 
-- **UPI** — enter any UPI ID (`name@bank`)
-- **Net Banking** — pick a bank (SBI, HDFC, ICICI, Axis, PNB)
-- **Credit / Debit Card** — 16-digit number, MM/YY expiry, 3-digit CVV, holder name
-- **Wallet** — PhonePe, Google Pay, Paytm
+---
 
-On "Pay", the app shows a **3-second loading animation**, then:
-- marks the order **Paid**, generates an **Order ID** + **Transaction ID**,
-- decrements product stock, saves a `Payment` record,
-- sends a **mock confirmation email** (logged to the backend console),
-- and redirects to the **Order Success** page.
+## 🛠️ Using the Admin Panel
+
+Log in with the **admin** account, then go to **/admin**. The sidebar has:
+
+- **Dashboard** — total orders, customers, revenue, products in stock, low-stock alerts.
+- **Products** — create / edit / delete products, upload images, set price/discount/stock.
+- **Orders** — view all orders and change their status (Pending → Processing → Shipped → Delivered / Cancelled).
+- **Customers** — search customers and view their order history.
+
+### How to add a product & upload a new image
+
+1. Log in as **admin** → open **Admin Panel** → click **Products** in the sidebar.
+2. Click the **➕ Add Product** button (top-right).
+3. Fill in the fields:
+   - **Product Name**, **Category** (Homemade Chocolates / Dry Fruits / Nuts / Gift Boxes)
+   - **Description**, **Ingredients**, **Weight** (e.g. `250g`), **Shelf Life** (e.g. `3 months`)
+   - **Price (₹)**, **Discount (%)**, **Stock**
+4. Add product images in **either** (or both) of two ways:
+   - **Image URLs** — paste one or more image links, comma-separated, into the *Image URLs* field, **or**
+   - **Upload Images** — click **"Or Upload Images"** and select one or more image files from your
+     computer (JPG/PNG/WebP, up to 5 files, max 5 MB each). Uploaded files are saved to
+     `backend/uploads/` and served automatically.
+5. *(Optional)* tick **Featured product** to show it on the home page.
+6. Click **Create Product**. The new product appears immediately in the list and on the storefront.
+
+### How to edit a product / replace its image
+
+1. In **Admin Panel → Products**, find the product and click the **✏️ Edit** (blue) button.
+2. Change any field (price, stock, description, etc.).
+3. To **add more images**, upload new files or add more URLs — they are appended to the product’s
+   gallery. (Existing image URLs are shown comma-separated in the *Image URLs* box; edit that list
+   to remove or reorder images.)
+4. Click **Update Product** to save.
+5. To remove a product entirely, click the **🗑️ Delete** (red) button and confirm.
+
+> **Where do uploaded images live?** Files you upload are stored in `backend/uploads/` and served
+> by the backend at `http://localhost:5000/uploads/<filename>`. This folder is **git-ignored** (only
+> a `.gitkeep` is committed), so your uploaded images stay on your machine and aren’t pushed to GitHub.
+
+---
+
+## 🔁 Making Changes & Committing to Git
+
+**Tools required:** **Git** (and a GitHub account). The **GitHub CLI** (`gh`) is optional but makes
+authentication easier.
+
+### One-time setup
+
+```bash
+# Tell git who you are (only needed once per machine)
+git config --global user.name  "Your Name"
+git config --global user.email "you@example.com"
+```
+
+Authenticate with GitHub so you can push. Easiest way (recommended):
+
+```bash
+gh auth login          # choose GitHub.com → HTTPS → Login with a web browser
+```
+
+*(Without the GitHub CLI, Git will prompt for your GitHub username and a **Personal Access Token**
+the first time you push — create one at https://github.com/settings/tokens with `repo` scope.)*
+
+### Everyday workflow
+
+```bash
+# 1. See what you changed
+git status
+
+# 2. Stage your changes (all of them)
+git add -A
+#    …or a specific file
+git add frontend/src/pages/Home.jsx
+
+# 3. Commit with a clear message
+git commit -m "Update home page hero text"
+
+# 4. Push to GitHub
+git push origin main
+```
+
+### Working safely on a feature (recommended)
+
+```bash
+# Create and switch to a new branch
+git checkout -b my-new-feature
+
+# ...make changes, then:
+git add -A
+git commit -m "Add gift-wrap option at checkout"
+git push -u origin my-new-feature
+# Then open a Pull Request on GitHub to merge into main.
+```
+
+### Pulling the latest changes
+
+```bash
+git pull origin main
+```
+
+> ⚠️ **Never commit secrets.** The `.env` file, `node_modules/`, build output and uploaded images
+> are already listed in `.gitignore` and will **not** be committed. Change `JWT_SECRET` and the demo
+> passwords before deploying anywhere real.
 
 ---
 
 ## 🎟️ Coupon Codes
 
-Try these at checkout: **`SWEET10`** (10% off), **`COCOA20`** (20% off), **`FESTIVE25`** (25% off).
+Try these at checkout:
 
-Pricing rules: 5% GST, ₹49 delivery (**free above ₹999**). All totals are computed
-server-side so the client cannot tamper with prices.
+| Code        | Discount |
+|-------------|----------|
+| `SWEET10`   | 10% off  |
+| `COCOA20`   | 20% off  |
+| `FESTIVE25` | 25% off  |
 
----
-
-## 🧩 Features
-
-**Customer:** landing page & hero, categories, search / filter / sort / pagination,
-product details with gallery & reviews, cart, checkout, dummy payment, order success,
-registration / login / forgot-password, profile, my orders, order details, invoice
-(print/PDF), wishlist, recently-viewed, related products, dark mode, fully responsive.
-
-**Admin:** secure admin login, dashboard (orders / customers / revenue / stock + low-stock
-alerts), product management (create/edit/delete, image upload, stock & price, featured
-flag), order management (status pipeline), customer management (search + order history).
+Pricing rules: **5% GST**, **₹49 delivery** (free on orders above **₹999**). All totals are
+calculated **server-side** so prices can’t be tampered with from the browser.
 
 ---
 
-## 🔌 API Overview
+## 🔌 API Reference
+
+Base URL: `http://localhost:5000/api`
 
 | Method | Endpoint                          | Access   | Purpose                        |
 |--------|-----------------------------------|----------|--------------------------------|
-| POST   | `/api/auth/register`              | Public   | Register                       |
-| POST   | `/api/auth/login`                 | Public   | Login                          |
-| POST   | `/api/auth/forgot-password`       | Public   | Request reset token (mock)     |
-| POST   | `/api/auth/reset-password`        | Public   | Reset password                 |
-| GET    | `/api/products`                   | Public   | List (search/filter/sort/page) |
-| GET    | `/api/products/featured`          | Public   | Featured products              |
-| GET    | `/api/products/:id`               | Public   | Product details                |
-| GET    | `/api/products/:id/related`       | Public   | Related products               |
-| POST   | `/api/products/:id/reviews`       | Private  | Add review                     |
-| POST   | `/api/products`                   | Admin    | Create product (multipart)     |
-| PUT    | `/api/products/:id`               | Admin    | Update product                 |
-| DELETE | `/api/products/:id`               | Admin    | Delete product                 |
-| GET    | `/api/categories`                 | Public   | List categories                |
-| POST   | `/api/orders/preview`             | Private  | Price preview + coupon         |
-| POST   | `/api/orders`                     | Private  | Create order                   |
-| GET    | `/api/orders/my`                  | Private  | My orders                      |
-| GET    | `/api/orders/:id`                 | Private  | Order details                  |
-| PUT    | `/api/orders/:id/cancel`          | Private  | Cancel order                   |
-| POST   | `/api/payments/process`           | Private  | Simulate payment               |
-| GET    | `/api/admin/stats`                | Admin    | Dashboard stats                |
-| GET    | `/api/admin/orders`               | Admin    | All orders                     |
-| PUT    | `/api/admin/orders/:id/status`    | Admin    | Update order status            |
-| GET    | `/api/admin/customers`            | Admin    | List/search customers          |
-| GET    | `/api/admin/customers/:id/orders` | Admin    | Customer order history         |
-| GET    | `/api/users/profile`              | Private  | Profile                        |
-| PUT    | `/api/users/profile`              | Private  | Update profile                 |
-| GET/POST | `/api/users/wishlist[/:id]`     | Private  | Wishlist                       |
+| POST   | `/auth/register`                  | Public   | Register                       |
+| POST   | `/auth/login`                     | Public   | Login                          |
+| POST   | `/auth/forgot-password`           | Public   | Request reset token (mock)     |
+| POST   | `/auth/reset-password`            | Public   | Reset password                 |
+| GET    | `/products`                       | Public   | List (search/filter/sort/page) |
+| GET    | `/products/featured`              | Public   | Featured products              |
+| GET    | `/products/:id`                   | Public   | Product details                |
+| GET    | `/products/:id/related`           | Public   | Related products               |
+| POST   | `/products/:id/reviews`           | Private  | Add review                     |
+| POST   | `/products`                       | Admin    | Create product (multipart)     |
+| PUT    | `/products/:id`                   | Admin    | Update product                 |
+| DELETE | `/products/:id`                   | Admin    | Delete product                 |
+| GET    | `/categories`                     | Public   | List categories                |
+| POST   | `/orders/preview`                 | Private  | Price preview + coupon         |
+| POST   | `/orders`                         | Private  | Create order                   |
+| GET    | `/orders/my`                      | Private  | My orders                      |
+| GET    | `/orders/:id`                     | Private  | Order details                  |
+| PUT    | `/orders/:id/cancel`              | Private  | Cancel order                   |
+| POST   | `/payments/process`               | Private  | Simulate payment               |
+| GET    | `/admin/stats`                    | Admin    | Dashboard stats                |
+| GET    | `/admin/orders`                   | Admin    | All orders                     |
+| PUT    | `/admin/orders/:id/status`        | Admin    | Update order status            |
+| GET    | `/admin/customers`                | Admin    | List/search customers          |
+| GET    | `/admin/customers/:id/orders`     | Admin    | Customer order history         |
+| GET/PUT| `/users/profile`                  | Private  | Get / update profile           |
+| GET/POST | `/users/wishlist[/:id]`         | Private  | Wishlist                       |
 
 ---
 
-## 🎨 Theme
+## 🩺 Troubleshooting
 
-Premium handmade-chocolate palette: **Chocolate Brown** `#5D4037`, **Cream** `#FFF8E1`,
-**Gold** `#C9A227`, White — with rounded cards, smooth animations, and light/dark mode.
+| Problem | Fix |
+|---------|-----|
+| `MongoDB connection error` | Ensure MongoDB is running (`Get-Service MongoDB`) or that your Atlas `MONGO_URI` is correct in `backend/.env`. |
+| `node`/`npm` not recognized | Reopen the terminal after installing Node so the PATH refreshes. |
+| Frontend won’t start / esbuild error (Windows) | Run `npm approve-scripts esbuild` in `frontend/`, then `npm run dev`. |
+| Port already in use | Change `PORT` in `backend/.env`, or stop the process using the port. |
+| Product images don’t show | Ensure the backend is running (images are served from `http://localhost:5000/uploads`). |
+| Login fails right after setup | Run `npm run seed` in `backend/` to (re)create the demo accounts. |
 
 ---
 
-## 📝 Notes
+## 📄 License
 
-- Product images use Unsplash URLs in the seed data and support admin uploads (stored in
-  `backend/uploads/`).
-- Emails and invoices are **mocked** (console log + browser print) — swap in nodemailer /
-  a PDF library for production.
-- Change `JWT_SECRET` and the admin password before any real deployment.
+Released under the **MIT License** — see [LICENSE](LICENSE).
