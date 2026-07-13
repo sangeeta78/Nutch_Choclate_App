@@ -327,8 +327,23 @@ sudo systemctl start mongod        # start MongoDB
 </details>
 
 Verify on any OS: `git --version`, `node --version`, `npm --version`.
-*(No local MongoDB? Use a free [MongoDB Atlas](https://www.mongodb.com/atlas) cloud DB and paste its
-connection string into `backend/.env` instead.)*
+
+> **Do I need to install MongoDB?** You need a database, but installing MongoDB is **optional** — pick one:
+>
+> - **Local install** (the MongoDB step above) — works offline, but must be installed on every machine.
+> - **MongoDB Atlas** (free cloud, **no install**) — create a free M0 cluster at
+>   [mongodb.com/atlas](https://www.mongodb.com/atlas), add a database user, allow your IP under
+>   *Network Access*, then copy the **Connect → Drivers** string into `MONGO_URI` in `backend/.env`:
+>   ```env
+>   MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/cocoacraft?retryWrites=true&w=majority
+>   ```
+>   Recommended when moving between computers — your data lives in the cloud, so you skip the install every time.
+>
+> | | Local install | Atlas (cloud) |
+> |---|---|---|
+> | Install needed | Yes, per machine | No |
+> | Works offline | Yes | No (needs internet) |
+> | Data follows you between machines | No | Yes |
 
 **2. Clone the project**
 
