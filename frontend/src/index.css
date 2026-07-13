@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream text-chocolate-dark antialiased transition-colors duration-300;
+  }
+  .dark body {
+    @apply bg-chocolate-dark text-cream;
+  }
+}
+
+@layer components {
+  /* Reusable button styles */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-medium
+           transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-chocolate text-cream hover:bg-chocolate-dark shadow-md hover:shadow-lg;
+  }
+  .btn-gold {
+    @apply btn bg-gold text-chocolate-dark hover:bg-gold-light shadow-md;
+  }
+  .btn-outline {
+    @apply btn border-2 border-chocolate text-chocolate hover:bg-chocolate hover:text-cream
+           dark:border-cream dark:text-cream dark:hover:bg-cream dark:hover:text-chocolate-dark;
+  }
+
+  /* Card container */
+  .card {
+    @apply rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-xl
+           dark:bg-chocolate dark:shadow-black/30;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-chocolate/20 bg-white px-4 py-2.5 text-chocolate-dark
+           outline-none transition focus:border-gold focus:ring-2 focus:ring-gold/30
+           dark:border-cream/20 dark:bg-chocolate-dark dark:text-cream;
+  }
+
+  .label {
+    @apply mb-1 block text-sm font-medium text-chocolate-light dark:text-cream/80;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #79554877; border-radius: 10px; }
+
+/* Print: show only the invoice when printing an order */
+@media print {
+  body * { visibility: hidden; }
+  #invoice, #invoice * { visibility: visible; }
+  #invoice { position: absolute; inset: 0; margin: 0; color: #000; background: #fff; }
+}
