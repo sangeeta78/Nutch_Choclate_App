@@ -89,6 +89,71 @@ Note: This environment currently does not include the Android SDK. If you
 see `No Android SDK found`, install Android Studio and SDK then re-run
 `flutter doctor`.
 
+### Generating an Android keystore (release)
+
+Create a signing key (keep this secret):
+
+```bash
+keytool -genkey -v -keystore choconut_key.jks -alias choconut_alias -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Move the keystore into `mobile/android/app/` (or store securely and reference by path).
+Create `mobile/android/key.properties` with:
+
+```properties
+storePassword=<YOUR_KEYSTORE_PASSWORD>
+keyPassword=<YOUR_KEY_PASSWORD>
+keyAlias=choconut_alias
+storeFile=choconut_key.jks
+```
+
+Then configure `android/app/build.gradle` signingConfigs to reference `key.properties` (standard Flutter template).
+
+**Keep `choconut_key.jks` out of source control.** Add it to `.gitignore` and store safely.
+
+## CI / GitHub Actions (Android)
+
+Below is a starter GitHub Actions workflow that runs analysis, tests and builds a debug APK on pushes to `main` and stores the artifact.
+
+Create `.github/workflows/flutter-ci.yml` with the following content and push:
+
+```yaml
+name: Flutter CI
+
+on:
+   push:
+      branches: [ main ]
+   pull_request:
+      branches: [ main ]
+
+jobs:
+   build:
+      runs-on: ubuntu-latest
+
+      steps:
+         - uses: actions/checkout@v4
+         - uses: subosito/flutter-action@v2
+            with:
+               flutter-version: 'stable'
+         - name: Flutter Pub Get
+            run: flutter pub get
+         - name: Analyze
+            run: flutter analyze
+         - name: Run tests
+            run: flutter test --coverage || true
+         - name: Build debug APK
+            run: flutter build apk --debug
+         - name: Upload artifact
+            uses: actions/upload-artifact@v4
+            with:
+               name: choconut-debug-apk
+               path: build/app/outputs/flutter-apk/app-debug.apk
+```
+
+Notes:
+- For release builds and Play Store uploads, add a signing step and set secrets in the repository (`ANDROID_KEYSTORE`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_PASSWORD`).
+- To build iOS artifacts, add a macOS runner and configure Apple signing (recommended to use `fastlane` in CI).
+
 ## Build iOS
 
 On macOS with Xcode installed, from `mobile`:
